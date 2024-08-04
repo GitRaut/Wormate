@@ -506,7 +506,6 @@ GameObject:
   - component: {fileID: 583203909}
   - component: {fileID: 583203911}
   - component: {fileID: 583203910}
-  - component: {fileID: 583203913}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -593,24 +592,6 @@ MonoBehaviour:
     OldPrefabList: []
   RunInBackground: 1
   LogLevel: 0
---- !u!114 &583203913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583203908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd7d12dd4afd064e8819057fae85261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodPrefabs:
-  - {fileID: 7214219805106378478, guid: 8021e59cad0cd294b8c0ce5f6ce52eb1, type: 3}
-  - {fileID: 1680170868226925488, guid: 487c4f19aeca9d244abfc34b8f29c53c, type: 3}
-  - {fileID: 3919721716849022786, guid: 5efb3c7333569b44c87c43bc18564b9d, type: 3}
-  maxCount: 10
-  generateRadius: 10
 --- !u!1 &787419882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,6 +1403,7 @@ GameObject:
   - component: {fileID: 1631736786}
   - component: {fileID: 1631736787}
   - component: {fileID: 1631736788}
+  - component: {fileID: 1631736789}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -1478,11 +1460,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PooledPrefabsList:
   - Prefab: {fileID: 7214219805106378478, guid: 8021e59cad0cd294b8c0ce5f6ce52eb1, type: 3}
-    PrewarmCount: 5
-  - Prefab: {fileID: 1680170868226925488, guid: 487c4f19aeca9d244abfc34b8f29c53c, type: 3}
-    PrewarmCount: 5
-  - Prefab: {fileID: 3919721716849022786, guid: 5efb3c7333569b44c87c43bc18564b9d, type: 3}
-    PrewarmCount: 5
+    PrewarmCount: 30
+--- !u!114 &1631736789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631736785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd7d12dd4afd064e8819057fae85261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodPref: {fileID: 7214219805106378478, guid: 8021e59cad0cd294b8c0ce5f6ce52eb1, type: 3}
+  maxCount: 30
+  generateRadius: 20
 --- !u!1 &1958581976
 GameObject:
   m_ObjectHideFlags: 0

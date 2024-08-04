@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 public class GrowManager : NetworkBehaviour
 {
     [SerializeField] private GameObject tailPrefab;
-    [SerializeField] private int startSize; //start count of tail parts
     [SerializeField] private float addScale; //scale for snake resizing
     [SerializeField] private float camAddScale; //scale for camera resizing
 
@@ -35,7 +34,7 @@ public class GrowManager : NetworkBehaviour
 
         if (!IsServer) length.OnValueChanged += OnLengthChanged;
 
-        if (IsOwner) for (int i = 0; i < startSize; i++) AddTail();
+        if(IsOwner) for (int i = 0; i < length.Value - 1; ++i) InstantiateTail();
     }
 
     public override void OnNetworkDespawn()
