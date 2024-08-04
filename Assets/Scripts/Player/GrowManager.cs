@@ -1,13 +1,21 @@
+using System;
 using System.Collections.Generic;
 using System.Xml;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class GrowManager : MonoBehaviour
+public class GrowManager : NetworkBehaviour
 {
     [SerializeField] private GameObject tailPrefab;
     [SerializeField] private int startSize; //start count of tail parts
     [SerializeField] private float addScale; //scale for snake resizing
     [SerializeField] private float camAddScale; //scale for camera resizing
+
+
+    public static event System.Action<ushort> ChangedLengthEvent;
+
+    public NetworkVariable<ushort> length = new NetworkVariable<ushort>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     private List<GameObject> tailParts = new List<GameObject>();
     private float curGrowFactor; //range between 0 and 1, if 1 or more add tail part
@@ -19,11 +27,29 @@ public class GrowManager : MonoBehaviour
 
     public float TotalScore { get; private set; }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         tailParts.Add(gameObject);
         camScript = Camera.main.GetComponent<CameraResize>();
-        for (int i = 0; i < startSize; i++) AddTail();
+
+        if (!IsServer) length.OnValueChanged += OnLengthChanged;
+
+        if (IsOwner) for (int i = 0; i < startSize; i++) AddTail();
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        DestroyTails();
+    }
+
+    private void DestroyTails()
+    {
+        foreach (GameObject tail in tailParts)
+            Destroy(tail);
+
+        tailParts.Clear();
     }
 
     public void Eat(float growFactor)
@@ -45,7 +71,24 @@ public class GrowManager : MonoBehaviour
         AddTail();
     }
 
-    private void AddTail()
+    public void AddTail()
+    {
+        length.Value++;
+        LengthChanged();
+    }
+
+    private void OnLengthChanged(ushort previousValue, ushort newValue) => LengthChanged();
+
+    private void LengthChanged()
+    {
+        InstantiateTail();
+
+        if (!IsOwner) return;
+
+        ChangedLengthEvent?.Invoke(length.Value);
+    }
+
+    private void InstantiateTail()
     {
         camScript.CameraGrow(camAddScale);
 
@@ -55,7 +98,6 @@ public class GrowManager : MonoBehaviour
         tail.transform.position = tailParts[tailParts.Count - 1].transform.position;
         tail.transform.localScale = transform.localScale;
 
-        tailParts.Add(tail);
         renderOrder -= 1;
         tail.GetComponent<SpriteRenderer>().sortingOrder = renderOrder;
 
@@ -67,5 +109,7 @@ public class GrowManager : MonoBehaviour
                 trans.localScale.y + addScale, 
                 trans.localScale.z);
         }
+
+        tailParts.Add(tail);
     }
 }

@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [Header("Components")]
     [SerializeField] private GameObject head;
@@ -16,23 +17,29 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 target;
     private float curSpeed;
 
-    private void Start() => Init();
-
-    private void FixedUpdate()
-    {
-        if (Input.GetKey(KeyCode.Mouse0)) curSpeed = fastSpeed;
-        else curSpeed = slowSpeed;
-
-        Move();
-    }
-
     private void Init()
     {
         cam = Camera.main;
         camScript = cam.GetComponent<FollowTarget>();
-        curSpeed = slowSpeed;
 
+        curSpeed = slowSpeed;
         player = transform.parent;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        Init();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsOwner || !Application.isFocused) return;
+
+        if (Input.GetKey(KeyCode.Mouse0)) curSpeed = fastSpeed;
+        else curSpeed = slowSpeed;
+
+        Move();
     }
 
     private void Move()

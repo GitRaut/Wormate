@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2848097618323261641}
   - component: {fileID: 3125257386878835072}
   - component: {fileID: -2196339328545958908}
+  - component: {fileID: -6065725596259377290}
   - component: {fileID: 4671093720342880753}
   m_Layer: 3
   m_Name: Food
@@ -149,6 +150,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.82
+--- !u!114 &-6065725596259377290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214219805106378478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 174902056
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &4671093720342880753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,3 +184,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 0
   growFactor: 0.25
+  prefab: {fileID: 0}
